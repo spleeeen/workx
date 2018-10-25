@@ -1,0 +1,36 @@
+FROM bare_linux_distro
+
+COPY /blah/blah/target /app
+
+RUN mv /app/jdk8/ /usr/bin/jdk8; \
+	mv /app/java7/ /usr/bin/java7; \
+	mv /app/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["default_app", "default_env", "default_jh"]
+
+
+
+
+docker-entrypoint.sh:
+
+#!/bin/bash
+APP="$1"
+ENV="$2"
+JH="$3"
+
+#parse APP and ENV to determine profile
+#blah logic
+PROFILE="profile_result"
+
+#parse JH
+#blah logic
+JAVA="/usr/bin/[appropriateJDK]/bin/java"
+JAR="/app/[appropriateJAR]"
+
+#kick it off
+$JAVA -jar -Dspring.profiles.active=$PROFILE $JAR
+
+
+
